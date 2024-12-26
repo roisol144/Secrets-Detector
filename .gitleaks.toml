@@ -1,0 +1,112 @@
+# Custom Gitleaks Configuration File
+
+#####################
+# AWS Secrets
+#####################
+[[rules]]
+id = "AWSAccessKey"
+description = "Identified a pattern that may indicate AWS credentials, risking unauthorized cloud resource access and data breaches on AWS platforms."
+regex = '''(?i)aws_access_key_id[=: ]*["']?([a-zA-Z0-9]{20})["']?'''
+tags = ["aws", "key"]
+
+[[rules]]
+id = "AWSSecretKey"
+description = "Identified a pattern that may indicate AWS credentials, risking unauthorized cloud resource access and data breaches on AWS platforms."
+regex = '''(?i)aws_secret_access_key[=: ]*["']?([a-zA-Z0-9/+=]{40})["']?'''
+tags = ["aws", "secret"]
+
+#####################
+# Generic API Tokens
+#####################
+[[rules]]
+id = "GenericToken"
+description = "Generic API Token"
+regex = '''(?i)(token|api[-_]key|secret)[=: ]*["']?([a-zA-Z0-9]{16,40})["']?'''
+tags = ["api", "token", "key"]
+
+[[rules]]
+id = "BearerToken"
+description = "Bearer Token"
+regex = '''(?i)bearer[ ]+([a-zA-Z0-9\-_]{20,})'''
+tags = ["bearer", "token"]
+
+#####################
+# Private Keys
+#####################
+[[rules]]
+id = "PrivateKey"
+description = "Private Key"
+regex = '''-----BEGIN (RSA|EC|DSA|OPENSSH|PRIVATE) KEY-----'''
+tags = ["private", "key"]
+
+#####################
+# Passwords
+#####################
+[[rules]]
+id = "HardcodedPassword"
+description = "Hardcoded Password"
+regex = '''(?i)(password|pass|pwd)[=: ]*["']?([a-zA-Z0-9@#$%^&*+=]{8,})["']?'''
+tags = ["password"]
+
+#####################
+# Google API Key
+#####################
+[[rules]]
+id = "GoogleAPIKey"
+description = "Google API Key"
+regex = '''AIza[0-9A-Za-z\\-_]{35}'''
+tags = ["google", "api", "key"]
+
+#####################
+# Slack Tokens
+#####################
+[[rules]]
+id = "SlackToken"
+description = "Slack Token"
+regex = '''xox[baprs]-([a-zA-Z0-9]{10,48})'''
+tags = ["slack", "token"]
+
+#####################
+# GitHub Tokens
+#####################
+[[rules]]
+id = "GitHubToken"
+description = "GitHub Personal Access Token"
+regex = '''ghp_[A-Za-z0-9_]{36}'''
+tags = ["github", "token"]
+
+#####################
+# Database Connection Strings
+#####################
+[[rules]]
+id = "DatabaseConnectionString"
+description = "Database Connection String"
+regex = '''(?i)(jdbc|mysql|postgres|mongodb|mssql):\/\/[^\s]+'''
+tags = ["database", "connection", "string"]
+
+#####################
+# AWS S3 Bucket Keys
+#####################
+[[rules]]
+id = "S3BucketKey"
+description = "AWS S3 Bucket Key"
+regex = '''(?i)s3://[a-zA-Z0-9\-_]+\/[a-zA-Z0-9\-_/]+'''
+tags = ["aws", "s3", "bucket"]
+
+#####################
+# Twilio API Keys
+#####################
+[[rules]]
+id = "TwilioAPIKey"
+description = "Twilio API Key"
+regex = '''SK[0-9a-fA-F]{32}'''
+tags = ["twilio", "api", "key"]
+
+#####################
+# Stripe API Keys
+#####################
+[[rules]]
+id = "StripeAPIKey"
+description = "Stripe API Key"
+regex = '''sk_live_[0-9a-zA-Z]{24}'''
+tags = ["stripe", "api", "key"]
