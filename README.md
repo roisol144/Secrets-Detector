@@ -83,11 +83,58 @@ docker run --rm -v $(pwd):/code roisol144/secrets-detector detect --no-git --rep
 
 #### Output:
 - A file named `output.json` will be created in the current directory, containing the scan results.
-Also any leak that we found will also be printed to your console.
+- Log messages (including any leaks found or errors) will be printed to your console.
 
 ---
 
-### Running the Test File
+## Error Codes and Troubleshooting
+
+The tool uses specific exit codes to indicate different outcomes or errors:
+
+-   **Exit Code 0**: Successful execution, and no leaks were found.
+-   **Exit Code 1**: General error. This can be due to various issues, such as:
+    -   The Gitleaks tool itself failing during execution (not related to finding leaks).
+    -   An unexpected Python exception occurred.
+    -   Missing command-line arguments when running the script.
+-   **Exit Code 2**: Gitleaks output file not found. This typically means the Gitleaks scan might have been successful (or not), but the expected JSON report file was not created or is missing.
+-   **Exit Code 3**: Invalid Gitleaks output. The Gitleaks JSON report file was found, but its content could not be parsed (e.g., malformed JSON) or validated against the expected schema.
+-   **Exit Code 4**: Gitleaks execution error. This indicates a problem reported by the Gitleaks tool itself through its own error codes (other than finding leaks).
+
+Check the log output for detailed error messages that provide more context on the issue.
+
+---
+
+## Code Quality
+
+This project uses **Black** for code formatting and **Flake8** for linting to maintain a consistent code style and identify potential issues.
+
+### Running Linters Locally
+
+You can run these checks locally to ensure your contributions meet the quality standards:
+
+1.  **Install dependencies** (if you haven't already):
+    ```bash
+    pip install -r requirements.txt
+    ```
+    (Ensure `flake8` and `black` are listed in `requirements.txt`)
+
+2.  **Run Black** to format files:
+    ```bash
+    black .
+    ```
+
+3.  **Run Flake8** to check for linting issues:
+    ```bash
+    flake8 .
+    ```
+
+### Docker Build Checks
+
+These code quality checks (Black and Flake8) are also integrated into the Docker build process. If either Black (in check mode) or Flake8 reports issues, the Docker build will fail. This helps ensure that only quality code is included in the Docker image.
+
+---
+
+## Running the Test File
 
 #### Why Use the Test File?
 Using the provided test file helps verify that the tool is functioning correctly in your environment.
